@@ -1,5 +1,5 @@
 CREATE TABLE Event(
-    id int auto_increment,
+    id int unique auto_increment,
     title varchar(255),
     place varchar(255),
     speaker varchar(255),

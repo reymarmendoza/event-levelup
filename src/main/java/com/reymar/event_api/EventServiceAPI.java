@@ -4,9 +4,9 @@ import java.util.List;
 
 interface EventServiceAPI {
 	Long createEvent(EventServiceDTO dto);
-	Long updateEvent(EventServiceDTO dto);
+	Long updateEvent(Long id, EventServiceDTO dto);
 	EventServiceDTO getEvent(Long id);
-	EventServiceDTO deleteEvent(Long id);
-	List<EventServiceAPI> getAllEvents();
-	List<EventServiceAPI> getAllEventsByTitle(String title);
+	boolean deleteEvent(Long id);
+	List<EventServiceDTO> getAllEvents();
+	List<EventServiceDTO> getAllEventsByTitle(String title);
 }

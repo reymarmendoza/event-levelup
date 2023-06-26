@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -13,34 +14,42 @@ public class EventServiceImpl implements EventServiceAPI{
 
 	@Override
 	public Long createEvent(EventServiceDTO dto) {
-		return null;
+		return eventRepository.save(dto).getId();
 	}
 
 	@Override
-	public Long updateEvent(EventServiceDTO dto) {
-		return null;
+	public Long updateEvent(Long id, EventServiceDTO dto) {
+		eventRepository.updateEventById(
+				dto.getTitle(),
+				dto.getPlace(),
+				dto.getSpeaker(),
+				dto.getEventType(),
+				dto.getDateEvent(),
+				id);
+		return id;
 	}
 
 	@Override
 	public EventServiceDTO getEvent(Long id) {
-		System.out.println("si senor " + id);
-		EventServiceDTO x = eventRepository.findById(id).orElseThrow();
-		System.out.println("raush " + x);
-		return x;
+		return eventRepository.findById(id).orElseThrow();
 	}
 
 	@Override
-	public EventServiceDTO deleteEvent(Long id) {
-		return null;
+	public boolean deleteEvent(Long id) {
+		Optional<EventServiceDTO> exist = eventRepository.findById(id);
+		if (exist.isPresent()) {
+			eventRepository.deleteById(id);
+			return true;
+		} else return false;
 	}
 
 	@Override
-	public List<EventServiceAPI> getAllEvents() {
-		return null;
+	public List<EventServiceDTO> getAllEvents() {
+		return eventRepository.findAll();
 	}
 
 	@Override
-	public List<EventServiceAPI> getAllEventsByTitle(String title) {
-		return null;
+	public List<EventServiceDTO> getAllEventsByTitle(String title) {
+		return eventRepository.findAllByTitle(title);
 	}
 }
